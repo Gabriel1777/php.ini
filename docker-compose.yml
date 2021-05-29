@@ -1,0 +1,108 @@
+version: "2"
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /root/certs:/etc/nginx/certs:ro
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes_from:
+      - nginx-proxy:rw
+    volumes:
+      - /root/certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  backend:
+    build: ./back
+    restart: always
+    volumes:
+      - /root/back/app:/var/www/html/app
+      - /root/back/routes:/var/www/html/routes
+      - .:/var/www/html
+    expose:
+      - "8080"
+    volumes:
+      # - /root/statics:/var/www/html/storage/app
+      - /root/back/.config/nginx.conf:/etc/nginx/nginx.conf
+      - /root/php.ini/custom.php.ini:/usr/local/etc/php/conf.d/custom.php.ini
+      - /root/back/storage:/var/www/html/storage
+      - /root/back/.env:/var/www/html/.env
+      - /root/back/FIREBASE_CREDENTIALS.json:/var/www/html/FIREBASE_CREDENTIALS.json
+      - /root/back/app:/var/www/html/app
+      - /root/back/bootstrap:/var/www/html/bootstrap
+      - /root/back/config:/var/www/html/config
+      - /root/back/database:/var/www/html/database
+      - /root/back/public:/var/www/html/public
+      - /root/back/resources:/var/www/html/resources
+      - /root/back/routes:/var/www/html/routes
+      - /root/back/composer.json:/var/www/html/composer.json
+    environment:
+      - VIRTUAL_HOST=api.colcagro.com.co
+      - VIRTUAL_PORT=8080
+      - LETSENCRYPT_HOST=api.colcagro.com.co
+      - LETSENCRYPT_EMAIL=juancho637@gmail.com
+      - APP_NAME=Colcagro
+      - APP_DEBUG=true
+      - APP_ENV=production
+      - APP_URL=https://api.colcagro.com.co
+      - APP_KEY=base64:l5wXhfHpLBGEOLpl/sAwXsL9lhifJgf68g1sumSSobI=
+      - LOG_CHANNEL=stack
+      - DB_CONNECTION=mysql
+      - DB_HOST=colcagro-mysql-do-user-8563681-0.b.db.ondigitalocean.com
+      - DB_PORT=25060
+      - DB_DATABASE=colcagro
+      - DB_USERNAME=colcagrodb
+      - DB_PASSWORD=sEguridad187.,qwertyui
+      - BROADCAST_DRIVER=log
+      - CACHE_DRIVER=file
+      - QUEUE_CONNECTION=sync
+      - SESSION_DRIVER=file
+      - SESSION_LIFETIME=120
+      - REDIS_HOST=127.0.0.1
+      - REDIS_PASSWORD=null
+      - REDIS_PORT=6379
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mi3-ts3.a2hosting.com
+      - MAIL_PORT=465
+      - MAIL_USERNAME=pruebas@netgou.co
+      - MAIL_PASSWORD=?eVJ0vW!$$,kw
+      - MAIL_ENCRYPTION=ssl
+      - MAIL_FROM_ADDRESS=pruebas@netgou.co
+      - MAIL_FROM_NAME=Colcagro
+      - JWT_SECRET=sjQkeFkDTJCSUt1mLrUE6EoVJz62D6veexJihPBdiuzE0ZHBnmGH1HsfUyaHWeGa
+      - SCOUT_DRIVER=tntsearch
+      - NOTIFICATION_IMAGE_URL=https://api.colcagro.com.co/images/colcagro notifications.jpg
+      - SIIGO_SUBSCRIPTION_KEY=37255aac3ae044ef8d518af2714aa485
+      - SIIGO_USERNAME=COMPAN44131@apionmicrosoft.com
+      - SIIGO_PASSWORD=colcagro12345colcagro
+      - SIIGO_IDENTIFICATION=963852741
+      - SIIGO_PHONE=3145879562
+      - SIIGO_EMAIL=Gerencia@colcagro.com.co
+      - SIIGO_ADDRESS="Car falsa 123"
+      - SIIGO_DOCCODE=26465
+      - SIIGO_FULLNAME="COLCAGRO"
+      - SIIGO_FIRSTNAME=COLCAGRO
+      - SIIGO_LASTNAME=S.A.S
+
+  frontend:
+    build: ./front
+    restart: unless-stopped
+    expose:
+      - "80"
+    environment:
+      - VIRTUAL_HOST=backoffice.colcagro.com.co
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=backoffice.colcagro.com.co
+      - LETSENCRYPT_EMAIL=juancho637@gmail.com
+
