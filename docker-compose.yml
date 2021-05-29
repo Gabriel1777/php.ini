@@ -97,9 +97,11 @@ services:
 
   frontend:
     build: ./front
-    restart: unless-stopped
+    restart: always
     expose:
       - "80"
+    volumes:
+      - /root/php.ini/build:/usr/share/nginx/html
     environment:
       - VIRTUAL_HOST=backoffice.colcagro.com.co
       - VIRTUAL_PORT=80
