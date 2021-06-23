@@ -1,7 +1,10 @@
 version: "2"
 services:
   nginx-proxy:
-    image: jwilder/nginx-proxy
+    build:
+       context: ./
+       dockerfile: nginx_proxy.df
+    #image: jwilder/nginx-proxy
     restart: always
     ports:
       - "80:80"
