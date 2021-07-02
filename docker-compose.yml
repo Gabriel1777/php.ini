@@ -97,6 +97,12 @@ services:
       - SIIGO_FULLNAME="COLCAGRO"
       - SIIGO_FIRSTNAME=COLCAGRO
       - SIIGO_LASTNAME=S.A.S
+      - PAYU_MERCHANT_ID=914092
+      - PAYU_NOTIFY_URL=https://api.colcagro.com.co/confirmed/pay
+      - PAYU_ACCOUNT_ID=920909
+      - PAYU_API_LOGIN=npY3jkDT1pee12w
+      - PAYU_API_KEY=SQqX7YzVv2y0jUQXcleqhL1LxL
+      - PAYU_TEST_MODE=false
 
   frontend:
     build: ./front
