@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '3d3714aca07342250a4d3e70f71f8550f0932274',
+    'reference' => '17a142f5e43750bd1999eebdfd400c454fd6703c',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '3d3714aca07342250a4d3e70f71f8550f0932274',
+      'reference' => '17a142f5e43750bd1999eebdfd400c454fd6703c',
     ),
     'spatie/db-dumper' => 
     array (
