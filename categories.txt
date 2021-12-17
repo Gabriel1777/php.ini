@@ -1,0 +1,7 @@
+insert into colcagro.subcategories (name, type, subscription_type_id) value ('Productos financieros', 'insumos_fincas', 5);
+insert into colcagro.subcategories (name, type, subscription_type_id) value ('Seguros', 'insumos_fincas', 5);
+insert into colcagro.subcategories (name, type, subscription_type_id) value ('Estudios de laboratorio', 'insumos_fincas', 5);
+
+insert into colcagro.categories (category, type, subcategory_id, subscription_type_id) values ('Paz y reconciliación', 'blog', null, null);
+insert into colcagro.categories (category, type, subcategory_id, subscription_type_id) values ('Mujer campesina', 'blog', null, null);
+insert into colcagro.categories (category, type, subcategory_id, subscription_type_id) values ('Comunidades rurales', 'blog', null, null);
